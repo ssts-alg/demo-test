@@ -1,0 +1,6 @@
+access_key="HSGCJHSAGCJHSAGVHJASGV"
+secret_access_key="DGCAHJCAHJCAHJFCJHASFCHJAFSCJCJ"
+region="us-east-1"
+ec2_tag_name="Jenkins"
+availablity_zone="us-east-1e"
+elb_name="elb"
