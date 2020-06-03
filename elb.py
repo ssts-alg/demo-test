@@ -4,8 +4,10 @@ import os
 import boto3
 import sys
 
+# Providing Credentials
 os.environ["AWS_SHARED_CREDENTIALS_FILE"] = "./creds"
 
+# Declaring Clients
 client = boto3.client('ec2')
 elb_client = boto3.client('elb')
 sts = boto3.client('sts')
@@ -18,9 +20,9 @@ if region not in regions:
     print("No Such Region Found.")
     sys.exit(2)
 
+# Taking inputs from user
 ec2_tag_name=input("Enter EC2 Tag name to Deregister from Load Balancer: ")
 elb_name=input("Enter target ELB : ")
-
 
 #Credentials Validation
 try:
@@ -30,13 +32,12 @@ except:
     print("Credentials invalid. Please Provide Valid Credentials.")
     sys.exit(1)
 
-
 elb_list=[]
 instance_list=[]
 
+#Listing LoadBalancers
 response1 = elb_client.describe_load_balancers()
 a=response1['LoadBalancerDescriptions']
-
 for z in a:
     elb_list.append(z['LoadBalancerName'])
 
@@ -47,10 +48,13 @@ if elb_name not in elb_list:
 else:
     print(f"Trying to Deregister Instances from {elb_name} ELB")
 
+#Fetching Instance Ids
 response = client.describe_instances(Filters=[{'Name': 'tag:Name', 'Values': [ec2_tag_name]}])
 for x in response['Reservations']:
     for y in x['Instances']:
         instance_list.append(y['InstanceId'])
+
+# Deregistering Instances from Load Balancers
 for id in instance_list:
     elb_response = elb_client.deregister_instances_from_load_balancer(
                LoadBalancerName=elb_name,
