@@ -18,7 +18,9 @@ try:
     sts.get_caller_identity()
     print("Credentials are valid.")
 except:
-    print("Credentials invalid.")
+    print("Credentials invalid. Please Provide Valid Credentials.")
+    sys.exit(1)
+
 
 elb_list=[]
 instance_list=[]
@@ -30,7 +32,7 @@ for z in a:
     elb_list.append(z['LoadBalancerName'])
 
 if elb_name not in elb_list:
-    print(f"{elb_name} ELB not Foung in this {region}")
+    print(f"{elb_name} ELB not Found in this {region}")
     sys.exit(0)
 else:
     print(f"Trying to Deregister Instances from {elb_name} ELB")
