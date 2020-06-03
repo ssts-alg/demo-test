@@ -65,4 +65,4 @@ for id in instance_list:
                         }
                         ]
         )
-    print(f"{instance_list} are removed from {elb_name} ELB Successfully")
+print(f"{instance_list} are removed from {elb_name} ELB Successfully")
