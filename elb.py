@@ -13,7 +13,7 @@ try:
     print("Credentials are valid.")
 except:
     print("Credentials invalid. Please Provide Valid Credentials.")
-    sys.exit(1)
+    sys.exit(0)
 
 #Region Validation
 client = boto3.client('ec2',aws_access_key_id=access_key,aws_secret_access_key=secret_access_key,region_name=default_region)
@@ -21,21 +21,21 @@ regions_list = [region['RegionName'] for region in client.describe_regions()['Re
 for region in regions:
     if region not in regions_list:
         print(f"{region} No Such Region Found.")
-        sys.exit(2)
+        sys.exit(1)
 
 #Checks
 if len(regions)==0:
     print("Please Enter Atleast One region in Config file.")
-    sys.exit(4)
+    sys.exit(2)
 if len(ec2_tag_name)==0:
     print("Please Enter Atleast One EC2 Tag Name in Config file.")
-    sys.exit(4)
+    sys.exit(3)
 if len(availablity_zone)==0:
     print("Please Enter Atleast One AvailabilityZone in Config file.")
     sys.exit(4)
 if len(elb_names)==0:
     print("Please Enter Atleast One ELB Name in Config file.")
-    sys.exit(4)
+    sys.exit(5)
 
 
 elb_list=[]
@@ -52,7 +52,7 @@ for region in regions:
 for elb_name in elb_names:
     if elb_name not in elb_list:
         print(f"{elb_name} ELB not Found in following regions {regions}")
-        sys.exit(0)
+        sys.exit(6)
 
 print("Trying to Deregister Instances")
 
