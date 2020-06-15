@@ -51,7 +51,7 @@ def matching_instances(regions):
     if len(instance_ids_with_matching_tags)==0:
         logging.info(f"No matching instances found in this {ec2_tag_names} tagging creteria. \nPlease Provide Valid Tags.\nThanks")
         sys.exit(4)
-    print(instance_ids_with_matching_tags)
+    # print(instance_ids_with_matching_tags)
 
 def deregistering_instances(regions):
     elb_list=[]
@@ -87,7 +87,8 @@ def deregistering_instances(regions):
                                     instance_list.append(t['InstanceId'])
                                     for elb in new_list:
                                         elb_response = elb_client.deregister_instances_from_load_balancer(LoadBalancerName=elb,Instances=[{'InstanceId': t['InstanceId']}])
-                                        logging.info(f"{t['InstanceId']} is Deregistered from ELB named \"{elb}\" in region \"{region}\"")
+                                        if t['InstanceId'] not in instance_list:
+                                            logging.info(f"{t['InstanceId']} is Deregistered from ELB named \"{elb}\" in region \"{region}\"")
     # print(list(dict.fromkeys(instance_list)))
     if len(list(dict.fromkeys(instance_list)))==0 :
         logging.info("Nothing to Deregister.\nThanks.")
