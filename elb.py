@@ -92,14 +92,14 @@ def deregistering_instances(regions):
     if len(list(dict.fromkeys(instance_list)))==0 :
         logging.info("Nothing to Deregister.\nThanks.")
 
-theread1=threading.Thread(target=region_check, args=(regions,))
-theread2=threading.Thread(target=matching_instances, args=(regions,))
-theread3=threading.Thread(target=deregistering_instances, args=(regions,))
+thread1=threading.Thread(target=region_check, args=(regions,))
+thread2=threading.Thread(target=matching_instances, args=(regions,))
+thread3=threading.Thread(target=deregistering_instances, args=(regions,))
 
-theread1.start()
-theread2.start()
-theread3.start()
+thread1.start()
+thread2.start()
+thread3.start()
 
-theread1.join()
-theread2.join()
-theread3.join()
+thread1.join()
+thread2.join()
+thread3.join()
