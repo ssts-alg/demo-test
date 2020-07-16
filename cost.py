@@ -1,7 +1,7 @@
 from datetime import datetime,timedelta,date
 import boto3
 import logging
-from config import *
+from configs import *
 import calendar
 import sys
 import os
